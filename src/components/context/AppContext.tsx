@@ -1,7 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
 
-
-
 type AppContextType = {
   someValue: string;
   setSomeValue: (value: string) => void;
@@ -9,7 +7,7 @@ type AppContextType = {
 
 const AppContext = createContext<AppContextType>({
   someValue: '',
-  setSomeValue: () => {},
+  setSomeValue: () => { },
 });
 
 const useAppContext = () => useContext(AppContext);

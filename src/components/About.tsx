@@ -3,16 +3,16 @@ import React from 'react';
 
 
 //Basic Props
-type aboutSection = {
-  discription: string
+type AboutProps = {
+  description: string
   lastUpdated: string
 }
 
-function About(props: aboutSection) {
+function About(props: AboutProps) {
   return (
     <section>
       <h2>About Me</h2>
-      <p>{props.discription}</p>
+      <p>{props.description}</p>
       <p>{props.lastUpdated}</p>
     </section>
   );
