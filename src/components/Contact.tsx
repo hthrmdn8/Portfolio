@@ -1,7 +1,8 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useContext  } from 'react';
 //npm install uuid
 //used to make unique identifier for the click event
 import { v4 as uuidv4 } from 'uuid';
+import { AppContext } from './context/AppContext';
 
 type ContactProps = {
   nameValue: string
@@ -28,6 +29,8 @@ type Action = {
 
 
 function Contact(props:ContactProps) {
+  const { someValue, setSomeValue } = useContext(AppContext);
+
 //usestate
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -86,6 +89,8 @@ function Contact(props:ContactProps) {
         </label>
         <button type="submit" onClick={handleClick}>Send</button>
         <h4>{ thankYou }</h4>
+        <div>First Code Written Ever: {someValue}</div>
+        <button onClick={() => setSomeValue('Hello, World!')}>Press</button>
         <div>Last Updated: {state.lastUpdated}</div>
       </form>
     </section>

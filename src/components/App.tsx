@@ -3,7 +3,7 @@ import Header from './Header';
 import About from './About';
 import Contact from './Contact';
 import ProjectList from './ProjectList';
-
+import { AppProvider } from './context/AppContext';
 
 const projectList = [
 
@@ -44,6 +44,7 @@ const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: string) => 
 function App() {
 
   return (
+    <AppProvider>
     <div className="App">
       <Header />
       <About discription = 'Im a front-end developer with experience in React, TypeScript, and CSS. I love building beautiful and functional websites and applications that help people achieve their goals'
@@ -59,6 +60,8 @@ function App() {
         handleClick={handleClick}
         />
     </div>
+    
+    </AppProvider>
   );
 }
 
