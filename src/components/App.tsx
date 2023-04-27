@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useReducer } from 'react';
 import Header from './Header';
 import About from './About';
 import Contact from './Contact';
