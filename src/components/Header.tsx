@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const navItems = [
   {
     title: 'Home',
@@ -15,6 +17,8 @@ const navItems = [
 ]
 
 function Header() {
+
+ 
   const navItemsList = navItems.map(item => <li key={item.title}><a href={item.path}>{item.title}</a></li>)
   return (
     <header>

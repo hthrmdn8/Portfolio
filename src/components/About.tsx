@@ -1,7 +1,3 @@
-import { type } from 'os';
-import React from 'react';
-
-
 //Basic Props
 type AboutProps = {
   description: string
