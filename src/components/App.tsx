@@ -73,7 +73,7 @@ useEffect(() => {
       </button>
       <Header />
       <About description = 'Im a front-end developer with experience in React, TypeScript, and CSS. I love building beautiful and functional websites and applications that help people achieve their goals'
-        lastUpdated='5/6/2023'/>
+        lastUpdated='Last updated: 5/8/2023'/>
       <ProjectList projects = {projectList}/>
       <Contact 
         nameValue='' 

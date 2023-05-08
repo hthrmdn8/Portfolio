@@ -78,8 +78,21 @@ function Contact(props:ContactProps) {
     setPostId(prevValue => value);
   };
 
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    if (!email) {
+      alert("Please enter your email address.");
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     console.log(event)
     console.log(name)
     console.log(email)
