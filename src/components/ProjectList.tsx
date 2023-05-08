@@ -7,36 +7,36 @@ import Comment from './Comments'
 
 
 //working with props, and arrays
-type ProjectListProps ={ 
-    projects: {
+type ProjectListProps = {
+  projectList: {
     title: string
     url: URL
     description: string
     finished: boolean
     comments: Comment[]
     id: number
-} []
+  }[]
 }
 
-const ProjectList = (props: ProjectListProps) => {
+const ProjectList = ({ projectList }: ProjectListProps) => {
+  // const ProjectList = (props: ProjectListProps) => {
   // const { comments, addComment } = useContext(CommentsContext);
 
 
-    return (
-        <div>
-                  <h2>My Projects</h2>
-            {props.projects.map(project => {
-                return (
-                    <div>
-                    <h3 key={project.id}>
-                        {project.title}</h3>
-                    <p>{project.description}</p>
-                    <p>{project.finished
-                  ? 'The project is completed!'
-                : 'Still in Progress'}</p> 
-                     <a href={project.url.toString()}>{project.url.toString()}</a>         
-                     <div>    
-                      {/* <input type="text" />
+  return (
+    <div>
+      <h2>My Projects</h2>
+      {projectList.map(project => {
+        return (
+          <div key={project.id}>
+            <h3>{project.title}</h3>
+            <p>{project.description}</p>
+            <p>{project.finished
+              ? 'The project is completed!'
+              : 'Still in Progress'}</p>
+            <a href={project.url.toString()}>{project.url.toString()}</a>
+            <div>
+              {/* <input type="text" />
 
                       <button onClick={() => addComment}>
                         Add Comment
@@ -53,13 +53,13 @@ const ProjectList = (props: ProjectListProps) => {
                           ))} 
                         </ul>
                       )}*/}
-                      </div>
-                    </div>
-                )
-            })}
-          
-        </div>
-            )
-    } 
+            </div>
+          </div>
+        )
+      })}
 
-    export default ProjectList
+    </div>
+  )
+}
+
+export default ProjectList

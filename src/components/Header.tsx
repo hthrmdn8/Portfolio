@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const navItems = [
   {
@@ -8,20 +8,17 @@ const navItems = [
   {
     title: 'About',
     path: '/about'
-  },
-  {
-    title: 'Home',
-    path: '/home'
-  },
+  }
   // Add the rest of the nav
 ]
 
 function Header() {
 
- 
+
   const navItemsList = navItems.map(item => <li key={item.title}><a href={item.path}>{item.title}</a></li>)
+
   return (
-    <header>
+    <header >
       <nav>
         <ul>
           {/* <li><a href="#">Home</a></li>
