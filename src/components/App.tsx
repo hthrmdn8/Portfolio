@@ -1,12 +1,13 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useContext, } from 'react';
 import Header from './Header';
 import About from './About';
 import Contact from './Contact';
 import ProjectList from './ProjectList';
-import Form from './Form';
-import ThemeSwitch from './ThemeSwtich';
-import { ThemeProvider } from './context/ThemeSwitchContext';
+import ThemeSwitch from './ThemeSwitch';
+import { ThemeContext } from './context/ThemeSwitchContext';
+import { themeStyles } from '../styles/themeStyles';
 
+// Define an array of project objects
 const projectList = [
 
   {
@@ -14,7 +15,6 @@ const projectList = [
     description: '.Net 6.0 Project using Mongo.DB, with Docker to Catalog anything the user needs',
     finished: true,
     url: new URL('https://example.com/project1.jpg'),
-    comments: [],
     id: 1
   },
 
@@ -23,7 +23,6 @@ const projectList = [
     description: 'A beginners walkthrough of the language Javascript',
     finished: false,
     url: new URL('https://example.com/project2.jpg'),
-    comments: [],
     id: 2
   },
 
@@ -32,89 +31,30 @@ const projectList = [
     description: 'A place for anyone to display their work',
     finished: false,
     url: new URL('https://example.com/project3.jpg'),
-    comments: [],
     id: 3
   }
 
 ]
-
-const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  console.log(event.target.value);
-};
-
-const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
-  console.log("Button Clicked", event, id);
-};
-
-
+// Define the main App component
 function App() {
-
-  //useEffect is a hook that lets you run side effects after rendering
-  //the component. A side effect is any code that affects something outside
-  //of the component, such as updating the document title.
-
-  //This useEffect hook sets the document title to "My Portfolio" when the
-  //component is rendered. The second argument to useEffect is an array
-  //of dependencies. When any of the dependencies change, useEffect will
-  //re-run. In this case, the dependency array is title, so the effect 
-  //will run when the 'Refresh Portfolio' button is pressed
-  //if array is left empty we would only run useEffect onMount
-  const [title, setTitle] = useState('My Portfolio');
-
-
-  //I know this is really simple, but I need ideas on what json to render if that is the route to go 
-  //--maybe a job board page? Or project idea page?? 
-  useEffect(() => {
-    document.title = title;
-  }, [title]);
-
-
-  const lightTheme = {
-    'text-color': 'black',
-    'background-color': 'white',
-    'button-color': 'green',
-    'button-text': 'brown',
-
-  }
-
-  const darkTheme = {
-    'text-color': 'red',
-    'background-color': 'black',
-    'button-color': 'green',
-    'button-text': 'brown',
-
-  }
-  const themes = { darkTheme, lightTheme }
-
+    // Use the useContext hook to access the theme and toggleTheme functions from the ThemeContext object
+  const { theme, toggleTheme } = useContext(ThemeContext);
+    // Access the appropriate styles object based on the current theme
+  const styles = themeStyles[theme];
+ 
+  // Render the following JSX code:
   return (
-    <ThemeProvider>
-      <div className="App">
-        <h1>{title}</h1>
-        <button onClick={() => setTitle('Dynamic Portfolio: Always Evolving')}>
-          Refresh Portfolio
-        </button>
-
+      <div className="App"  style={{ backgroundColor: styles.backgroundColor, color: styles.color }}>
+        <h1>My Portfolio</h1>
         <Header />
-
-        <About description='Im a front-end developer with experience in React, TypeScript, and CSS. I love building beautiful and functional websites and applications that help people achieve their goals'
-          lastUpdated='Last updated: 5/8/2023' />
-
-        <ProjectList projectList={projectList} />
-
-        <Contact
-          nameValue=''
-          emailValue=''
-          messageValue=''
-          handleFormChange={handleFormChange}
-          handleClick={handleClick}
-        />
-
-        <Form />
-
         <ThemeSwitch />
+        <About description= "I'm a front-end developer with experience in React, TypeScript, and CSS. I enjoy building beautiful and functional websites and applications using these technologies. Recently, I have been focusing on learning TypeScript and incorporating it into my React projects to create more robust and maintainable code."
+          lastUpdated='Last updated: 5/8/2023' />
+        <ProjectList projects={projectList} />
+        <br />
+        <Contact />
       </div>
-    </ThemeProvider>
   );
 }
-
+// Export the App component as the default export
 export default App;

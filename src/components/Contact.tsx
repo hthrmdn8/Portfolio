@@ -1,133 +1,86 @@
-import React, { useState, useReducer, useContext } from 'react';
-//npm install uuid
-//used to make unique identifier for the click event
-import { v4 as uuidv4 } from 'uuid';
+import React, { useRef, FormEvent, useContext, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid'; // Import uuid
 
-type ContactProps = {
-  nameValue: string
-  emailValue: string
-  messageValue: string
-  //half the time this will not need parameters
-  handleFormChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  //half the time this will not need parameters
-  handleClick: (event: React.MouseEvent<HTMLButtonElement>, id: string) => void
-}
+const ContactComponent: React.FC = () => {
 
-type State = {
-  lastUpdated: string | null;
-};
+    // initializes the state variable message and its corresponding updater
+    // function setMessage using the useState hook. The initial value of message
+    // is the default message to be displayed in the component.
+    const [message, setMessage] = useState<string>('Thank you for visiting my portfolio. If you have any questions you can contact me below!');
 
-type Action = {
-  type: 'UPDATE_LAST_UPDATED';
-  payload: string;
-};
+    // declares four useRef variables which are used to reference the input fields in the form
+    const postIdRef = useRef<HTMLInputElement>(null);
+    const nameRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const messageRef = useRef<HTMLInputElement>(null);
+    
+    // declares a submit handler function for the form. It prevents the default form submission behavior, 
+    // extracts the values of the form fields and generates a unique post ID using the uuidv4 function. 
+    // It then logs the form data to the console and clears the form fields by resetting their values to an empty string. 
+    // Finally, it sets the message state variable to a personalized message thanking the user for submitting 
+    // their form and providing their name, message, and email.
+    const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+        e.preventDefault();
 
+        // Process the form data here
+        const postId = uuidv4();
+        const name = nameRef.current?.value || '';
+        const email = emailRef.current?.value || '';
+        const message = messageRef.current?.value || '';
 
-function Contact(props: ContactProps) {
-  //const { someValue, setSomeValue } = useContext(AppContext);
+        // Validate form fields hits an early return to prevent form submission
+        if (!name || !email || !message) {
+        setMessage('Please fill out all fields.');
+        return;
+        }
 
-  //useState
-  //We are setting the state and the value we give it -in this case '' is the default value
-  //By using a function as the value returning '' this will not run each time our component is re-rendered,
-  //only the first time
-  const [postId, setPostId] = useState(() => '');
-  const [name, setName] = useState(() => '');
-  const [email, setEmail] = useState(() => '');
-  const [message, setMessage] = useState(() => '');
-  const [thankYou, setThankYou] = useState(() => 'Thank you!!')
+        console.log('Name:', name);
+        console.log('Email:', email);
+        console.log('Message:', message);
+        console.log("Post ID:", postId)
 
-  //NOT BEING USED ATM
-  //useReducer
-  // const initialState = { lastUpdated: null };
-  // const reducer = (state: State, action: Action) => {
-  //   switch (action.type) {
-  //     case 'UPDATE_LAST_UPDATED':
-  //       return { lastUpdated: new Date().toLocaleString() };
-  //       default:
-  //       return state;
-  //   }
-  // };
+        // Clear the form fields
+        if (nameRef.current) {
+            nameRef.current.value = '';
+      }
 
-  // const [state, dispatch] = useReducer(reducer, initialState);
+        if (emailRef.current) {
+            emailRef.current.value = '';
+      }
+        if (messageRef.current) {
+            messageRef.current.value = '';
+      }
 
-  //when you update state the whole component rerenders.
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    switch (name) {
-      case 'name':
-        setName(prevValue => value);
-        break;
-      case 'email':
-        setEmail(prevValue => value);
-        break;
-      case 'message':
-        setMessage(prevValue => value);
-        break;
-      default:
-        break;
-    }
-    setPostId(prevValue => value);
-  };
+        if (postIdRef.current) {
+            postIdRef.current.value = '';
+      }
 
+        setMessage(`Thank you, ${name}! We have received your message: ${message}. We'll get back to you at ${email} shortly.`);
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    };
 
-  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (!email) {
-      alert("Please enter your email address.");
-      return;
-    }
-
-    if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-
-    console.log(event)
-    // console.log(name)
-    // console.log(email)
-    // console.log(message)
-    // console.log(postId)
-    setThankYou(`Thank you, ${name}. I will be contacting you at ${email} very soon thank you for your message!! ${message}`)
-    {/*using uuidV4 as the id maybe going too far, but I got interested so I figured it out*/ }
-    props.handleClick(event, uuidv4());
-    //dispatch({ type: 'UPDATE_LAST_UPDATED' })
-  };
-
-  return (
-
-    <section>
+    // the JSX code that renders the component
+    return (
+      <div id="contact">
+      {message && <p>{message}</p>}
       <h2>Contact Me</h2>
-      <form>
-        <label>
-          Name:
-          <input type="text" name="name" defaultValue={name} onChange={handleFormChange} />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" defaultValue={email} onChange={handleFormChange} />
-        </label>
-        <label>
-          Message:
-          <input type="text" name="message" defaultValue={message} onChange={handleFormChange} />
-        </label>
-
-        <input type="text" defaultValue={postId} hidden />
-
-        <button type="submit" onClick={handleSubmit}>Send</button>
-        <h4>{thankYou}</h4>
-
-
-        {/*  //NOT BEING USED ATM
-
-         <div>First Code Written Ever: {someValue}</div>
-        <button onClick={() => setSomeValue('Hello, World!')}>Press</button>
-        <div>Last Updated: {state.lastUpdated}</div> */}
-
-      </form>
-    </section>
-  );
-}
-
-export default Contact;
+        <form onSubmit={handleSubmit}>
+            <label htmlFor="name">Name:</label>
+            <br/>
+            <input type="text" id="name" name="name" ref={nameRef} />
+            <br />
+            <label htmlFor="email">Email:</label>
+            <br/>
+            <input type="email" id="email" name="email" ref={emailRef} />
+            <br />
+            <label htmlFor="name">Message:</label>
+            <br/>
+            <input type="text" id="message" name="message" ref={messageRef} />
+            <br />
+            <button type="submit">Submit</button>
+        </form>
+      </div>
+    );
+};
+// Export the Contact component as the default export
+export default ContactComponent;

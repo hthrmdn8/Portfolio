@@ -1,35 +1,35 @@
-import { useContext, useEffect, useState } from "react";
+// array navItems is declared with three objects as its 
+// elements. Each object represents a navigation item with a title and a path property
 
 const navItems = [
   {
-    title: 'Home',
-    path: '/home'
-  },
-  {
     title: 'About',
     path: '/about'
+  },
+  {
+    title: 'Projects',
+    path: '#projects'
+  },
+  {
+    title: 'Contact',
+    path: '#contact'
   }
-  // Add the rest of the nav
 ]
 
 function Header() {
 
-
   const navItemsList = navItems.map(item => <li key={item.title}><a href={item.path}>{item.title}</a></li>)
-
+    
+  // Render the following JSX code:
   return (
-    <header >
+    <header>
       <nav>
         <ul>
-          {/* <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Projects</a></li>
-          <li><a href="#">Contact</a></li> */}
           {navItemsList}
         </ul>
       </nav>
     </header>
   );
 }
-
+// Export the Header component as the default export
 export default Header;
