@@ -1,4 +1,5 @@
 import React, { createContext, useState, ReactNode } from 'react';
+import { themeStyles } from '../../styles/themeStyles';
 
 type Theme = 'light' | 'dark';
 
@@ -22,6 +23,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
+  const body = document.querySelector('body');
+  const styles = themeStyles[theme];
+  if (body != null)
+    body.style.background = styles.backgroundColor;
+
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

@@ -5,14 +5,14 @@ type AboutProps = {
 }
 
 // Define the About component which receives props of type AboutProps
-function About(props: AboutProps) {
+function About({ description, lastUpdated }: AboutProps) {
 
   // Render the following JSX code:
   return (
     <section id="about">
       <h2>About Me</h2>
-      <p>{props.description}</p>
-      <p>{props.lastUpdated}</p>
+      <p>{description}</p>
+      <p>{lastUpdated}</p>
     </section>
   );
 }
